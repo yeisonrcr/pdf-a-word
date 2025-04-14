@@ -1,0 +1,51 @@
+import os
+from pdf2docx import Converter
+
+def convertir_pdf_a_word(archivo_pdf, archivo_word=None):
+    """
+    Convierte un archivo PDF a formato Word (DOCX)
+    
+    Args:
+        archivo_pdf (str): Ruta del archivo PDF de entrada
+        archivo_word (str, opcional): Ruta del archivo Word de salida. 
+                                     Si no se proporciona, se usará el mismo nombre que el PDF.
+    
+    Returns:
+        str: Ruta del archivo Word generado
+    """
+    # Verificar que el archivo PDF exista
+    if not os.path.exists(archivo_pdf):
+        print(f"Error: El archivo '{archivo_pdf}' no existe.")
+        return None
+    
+    # Si no se proporciona un nombre para el archivo Word, usar el mismo nombre que el PDF
+    if archivo_word is None:
+        archivo_word = os.path.splitext(archivo_pdf)[0] + '.docx'
+    
+    try:
+        # Crear el convertidor
+        cv = Converter(archivo_pdf)
+        # Realizar la conversión
+        cv.convert(archivo_word)
+        # Cerrar el convertidor
+        cv.close()
+        
+        print(f"Conversión exitosa: '{archivo_pdf}' -> '{archivo_word}'")
+        return archivo_word
+    
+    except Exception as e:
+        print(f"Error durante la conversión: {e}")
+        return None
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    # Puedes usar el script de las siguientes maneras:
+    
+    # 1. Proporcionar manualmente la ruta del PDF
+    pdf_path = 'taniac2.pdf'
+    convertir_pdf_a_word(pdf_path)
+    
+    # 2. O si prefieres especificar tanto la entrada como la salida:
+    # pdf_path = input("Ingresa la ruta del archivo PDF: ")
+    # docx_path = input("Ingresa la ruta para el archivo Word: ")
+    # convertir_pdf_a_word(pdf_path, docx_path)
