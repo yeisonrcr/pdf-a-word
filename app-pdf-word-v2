@@ -1,0 +1,19 @@
+from pdf2docx import Converter
+import os
+
+def pdf_a_word(pdf_path: str, docx_path: str):
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"No se encontró el archivo: {pdf_path}")
+
+    try:
+        cv = Converter(pdf_path)
+        cv.convert(docx_path, start=0, end=None)  # Puedes limitar las páginas con start/end
+        cv.close()
+        print(f"✅ Conversión completada: {docx_path}")
+    except Exception as e:
+        print(f"❌ Error durante la conversión: {e}")
+
+# Ejemplo de uso
+pdf_input = 'taniac1.pdf'
+docx_output = 'taniac1.docx'
+pdf_a_word(pdf_input, docx_output)
